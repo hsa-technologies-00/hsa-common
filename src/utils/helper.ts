@@ -1,25 +1,12 @@
 import _ from 'lodash';
+import { PaginateResult, AggregatePaginateResult } from 'mongoose';
+import __ from 'mongoose-paginate-v2';
+import ___ from 'mongoose-aggregate-paginate-v2';
 import { Pagination } from '../types/pagination';
 
 export const pick = _.pick;
 
-interface IResults<T> {
-  docs: T[];
-  totalDocs: number;
-  limit: number;
-  hasPrevPage: boolean;
-  hasNextPage: boolean;
-  page?: number | undefined;
-  totalPages: number;
-  offset: number;
-  prevPage?: number | null | undefined;
-  nextPage?: number | null | undefined;
-  pagingCounter: number;
-  meta?: any;
-  [customLabel: string]: T[] | number | boolean | null | undefined;
-}
-
-export const formatListResponse = <T>(results: IResults<T>) => {
+export const formatListResponse = <T>(results: PaginateResult<T> | AggregatePaginateResult<T>) => {
   const { docs: data, ...paginationOption } = results;
   const pagination: Pagination = pick(paginationOption, [
     'totalDocs',
@@ -28,7 +15,6 @@ export const formatListResponse = <T>(results: IResults<T>) => {
     'hasNextPage',
     'page',
     'totalPages',
-    'offset',
     'prevPage',
     'nextPage',
     'pagingCounter',
