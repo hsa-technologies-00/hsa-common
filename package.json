@@ -1,6 +1,6 @@
 {
   "name": "@hsa-technologies-00/hsa-common",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Common module for hsa-technologies-00",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
