@@ -59,7 +59,7 @@ export const trimQuery = (queryData: QueryData): QueryData => {
   }
 
   if (queryData.page && queryData.limit) {
-    return { ...deepTrim(queryData), page, limit };
+    return { ...deepTrim(queryData), page: parseInt(String(page)), limit: parseInt(String(limit)) };
   }
 
   return { ...deepTrim(queryData) };
