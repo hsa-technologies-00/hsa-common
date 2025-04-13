@@ -39,7 +39,9 @@ export const trimQuery = (queryData: QueryData): QueryData => {
   const pageSize = parseInt(String(limit));
 
   page = !pageNumber || pageNumber < 1 ? 1 : pageNumber;
-  limit = !pageSize || pageSize < 1 || pageSize > 30 ? 10 : pageSize;
+  if (!pageSize) limit = 30;
+  if (pageSize < 1) limit = 1;
+  if (pageSize > 100) limit = 100;
 
   const isObject = (object: any): boolean => object !== null && typeof object === 'object';
 
