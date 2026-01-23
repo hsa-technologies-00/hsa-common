@@ -1,7 +1,7 @@
 import jwt from 'jsonwebtoken';
 import { Request, Response, NextFunction } from 'express';
 import { catchAsync } from '../errors/catch-async';
-import { UnauthorizedException, ForbiddenException } from '../errors/api-error';
+import { UnauthorizedException, ForbiddenException, BadRequestException } from '../errors/api-error';
 import { RequestUserPayload } from '../types/RequestExtension';
 import { getEnvVariable } from '../utils/env-variable';
 import '../types/RequestExtension';
@@ -22,6 +22,12 @@ export const checkAuth = catchAsync(async (req: Request, res: Response, next: Ne
 
 export const requireAuth = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
   if (!req.user) return next(new UnauthorizedException());
+
+  next();
+});
+
+export const requireVerified = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
+  if (req.user.emailVerificationStatus !== 'verified') return next(new BadRequestException('Email is not verified.'));
 
   next();
 });
